@@ -51,11 +51,9 @@ resource "aws_instance" "web" {
   subnet_id                   = aws_subnet.us-east-1a-private.id
   associate_public_ip_address = true
   source_dest_check           = false
+  monitoring                  = true
   user_data                   = file("user-data.sh")
   tags                        = { Name = "Webserver-private" }
-}
-output "web_private_ip" {
-  value = aws_instance.web.private_ip
 }
 
 resource "aws_eip" "web" {
