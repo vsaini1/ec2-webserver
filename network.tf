@@ -157,3 +157,23 @@ resource "aws_route_table_association" "us-east-1a-private" {
   subnet_id      = aws_subnet.us-east-1a-private.id
   route_table_id = aws_route_table.us-east-1a-private.id
 }
+
+resource "aws_lb" "web" {
+  name               = "web-lb-tf"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.nat.id]
+  subnets            = aws_subnet.us-east-1a-public.id
+  /*
+  enable_deletion_protection = true
+
+  access_logs {
+    bucket  = aws_s3_bucket.lb_logs.bucket
+    prefix  = "web-lb"
+    enabled = true
+  }
+*/
+  tags = {
+    Environment = "test"
+  }
+}
